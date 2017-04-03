@@ -1,30 +1,44 @@
+print "starting"
 import numpy as np
 import cv2
 import glob
 
-train = [[]]
-label = []
 
+print "begin reading"
 classes = 5
 for i in range(classes):
-	f = open('class' + (i+1) + '/data.txt')
-	line = f.readline()
-	while line:
-		train.append(map(float, line.split()))
-		label.append(i+1)
-	f.close()
+	f = np.loadtxt('store/' + str(i+1) + '.txt', dtype='float32')
+	if 'train' in locals():
+		label = np.concatenate((label, np.array([i+1]*f.shape[0], dtype='float32')))
+		train = np.vstack([train, f])
+	else:
+		label = np.array([i+1]*f.shape[0], dtype='float32')
+		train = f
+#	f = open('store/' + str(i+1) + '.txt')
+#	line = f.readline()
+#	while line:
+#		train.append(map(float, line.split()))
+#		label.append(i+1)
+#	f.close()
+
+print "finish reading"
 
 
-innodes = 5
+print label.shape
+print train.shape
 
-machine = cv2.ml.ANN_MPL_create()
+innodes = 1764
+
+machine = cv2.ml.ANN_MLP_create()
 machine.setLayerSizes(np.array([innodes, innodes/2, classes]))	#Defines the sizes of the node layers
 machine.setActivationFunction(cv2.ml.ANN_MLP_SIGMOID_SYM)	#Not sure what this is
 machine.setTrainMethod(cv2.ml.ANN_MLP_RPROP)	#I presume this tells it to do reverse propogation
 
+print "ready for setup"
 
 response = np.array(label)
 trainData = np.array(train)
+print "Training"
 machine.train(trainData, cv2.ml.ROW_SAMPLE, response)
 
 fs = cv2.FileStorage("machine.yml", cv2.FileStorage_WRITE)
