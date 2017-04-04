@@ -3,16 +3,21 @@ import numpy as np
 import cv2
 import glob
 
+classes = 5
+def selectArray(clas):
+	rv = [0]*classes
+	rv[clas] = 1
+	return rv
+
 
 print "begin reading"
-classes = 5
 for i in range(classes):
 	f = np.loadtxt('store/' + str(i+1) + '.txt', dtype='float32')
 	if 'train' in locals():
-		label = np.concatenate((label, np.array([i+1]*f.shape[0], dtype='float32')))
+		label = np.concatenate((label, np.array([selectArray(i) for j in range(f.shape[0])], dtype='float32')))
 		train = np.vstack([train, f])
 	else:
-		label = np.array([i+1]*f.shape[0], dtype='float32')
+		label = np.array([selectArray(i) for j in range(f.shape[0])], dtype='float32')
 		train = f
 #	f = open('store/' + str(i+1) + '.txt')
 #	line = f.readline()
@@ -41,5 +46,4 @@ trainData = np.array(train)
 print "Training"
 machine.train(trainData, cv2.ml.ROW_SAMPLE, response)
 
-fs = cv2.FileStorage("machine.yml", cv2.FileStorage_WRITE)
-machine.write(fs, "machine")
+machine.save("machine.yml")
