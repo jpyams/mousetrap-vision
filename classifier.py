@@ -24,15 +24,15 @@ for imgfile in files:
 	img = cv2.imread(imgfile)
 	faces = face_cascade.detectMultiScale(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), 1.3, 5)
 	if len(faces) > 0:
-		#(x,y,w,h) = faces[0]
-		#roi_color = img.copy()
-		#roi_color = cv2.rectangle(roi_color, (x,y), (x+w,y+h), (255,0,0), 2)
-		#roi_color = directives(roi_color)
+		(x,y,w,h) = faces[0]
+		roi_color = img.copy()
+		roi_color = cv2.rectangle(roi_color, (x,y), (x+w,y+h), (255,0,0), 2)
+		roi_color = directives(roi_color)
 		#roi_color = img[y:y+h, x:x+w]
-		#cv2.imshow('Classifying', roi_color)
-		#clas = cv2.waitKey(0)
-		#if clas & 0xFF == ord(' '):
-		#	continue
+		cv2.imshow('Classifying', roi_color)
+		clas = cv2.waitKey(0)
+		if clas & 0xFF == ord(' '):
+			continue
 		clasDir = 'class' + '5' #str(chr(clas & 0xFF))
 		cv2.imwrite(clasDir + "/5" + 
 			#str(chr(clas & 0xFF)) + 
