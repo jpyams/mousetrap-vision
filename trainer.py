@@ -29,6 +29,13 @@ for i in range(classes):
 print "finish reading"
 
 
+rand = np.random.randint(1)
+np.random.seed(rand)
+np.random.shuffle(label)
+np.random.seed(rand)
+np.random.shuffle(train)
+
+
 print label.shape
 print train.shape
 
