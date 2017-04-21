@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import glob
 
-classes = 3
+classes = 2
 def selectArray(clas):
 	rv = [0]*classes
 	rv[clas] = 1
@@ -12,7 +12,7 @@ def selectArray(clas):
 
 print "begin reading"
 for i in range(classes):
-	f = np.loadtxt('store/' + str(i+1) + '.txt', dtype='float32')
+	f = np.loadtxt('store/' + str(i+2) + '.txt', dtype='float32')
 	if 'train' in locals():
 		label = np.concatenate((label, np.array([selectArray(i) for j in range(f.shape[0])], dtype='float32')))
 		train = np.vstack([train, f])
@@ -55,4 +55,4 @@ trainData = np.array(train)
 print "Training"
 machine.train(trainData, cv2.ml.ROW_SAMPLE, response)
 
-machine.save("machineh.yml")
+machine.save("machineh1.yml")
