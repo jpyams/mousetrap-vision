@@ -12,6 +12,7 @@ def selectArray(clas):
 
 print "begin reading"
 for i in range(classes):
+<<<<<<< HEAD
 	f = np.loadtxt('store/' + str(i+2) + '.txt', dtype='float32')
 	if 'train' in locals():
 		label = np.concatenate((label, np.array([selectArray(i) for j in range(f.shape[0])], dtype='float32')))

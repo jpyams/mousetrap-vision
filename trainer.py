@@ -10,7 +10,6 @@ def selectArray(clas):
 	rv[clas] = 1
 	return rv
 
-
 print "begin reading"
 for i in range(classes):
 	f = np.loadtxt('store/test3/' + str(i+1) + '.txt', dtype='float32')
