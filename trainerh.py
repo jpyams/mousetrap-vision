@@ -55,4 +55,4 @@ trainData = np.array(train)
 print "Training"
 machine.train(trainData, cv2.ml.ROW_SAMPLE, response)
 
-machine.save("machineh1.yml")
+machine.save("machineh11.yml")

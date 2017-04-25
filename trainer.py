@@ -2,8 +2,9 @@ print "starting"
 import numpy as np
 import cv2
 import glob
+import time
 
-classes = 5
+classes = 2
 def selectArray(clas):
 	rv = [0]*classes
 	rv[clas] = 1
@@ -12,7 +13,7 @@ def selectArray(clas):
 
 print "begin reading"
 for i in range(classes):
-	f = np.loadtxt('store/' + str(i+1) + '.txt', dtype='float32')
+	f = np.loadtxt('store/test3/' + str(i+1) + '.txt', dtype='float32')
 	if 'train' in locals():
 		label = np.concatenate((label, np.array([selectArray(i) for j in range(f.shape[0])], dtype='float32')))
 		train = np.vstack([train, f])
@@ -28,8 +29,7 @@ for i in range(classes):
 
 print "finish reading"
 
-
-rand = np.random.randint(1)
+rand = int(time.time())
 np.random.seed(rand)
 np.random.shuffle(label)
 np.random.seed(rand)
@@ -39,10 +39,10 @@ np.random.shuffle(train)
 print label.shape
 print train.shape
 
-innodes = 1764
+innodes = 1764	#8100
 
 machine = cv2.ml.ANN_MLP_create()
-machine.setLayerSizes(np.array([innodes, innodes/2, classes]))	#Defines the sizes of the node layers
+machine.setLayerSizes(np.array([innodes, innodes*2, classes]))	#Defines the sizes of the node layers
 machine.setActivationFunction(cv2.ml.ANN_MLP_SIGMOID_SYM)	#Not sure what this is
 machine.setTrainMethod(cv2.ml.ANN_MLP_RPROP)	#I presume this tells it to do reverse propogation
 
@@ -53,4 +53,4 @@ trainData = np.array(train)
 print "Training"
 machine.train(trainData, cv2.ml.ROW_SAMPLE, response)
 
-machine.save("machine.yml")
+machine.save("machine2h.yml")

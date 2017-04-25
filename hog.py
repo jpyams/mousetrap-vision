@@ -6,10 +6,10 @@ face_cascade = cv2.CascadeClassifier('../opencv/data/haarcascades/haarcascade_fr
 
 hd = cv2.HOGDescriptor((64,64), (16,16), (8,8), (8,8), 9)
 
-imgFiles = glob.glob("class3expanded/*.png")
+imgFiles = glob.glob("class2/*.png")
 imgFiles.sort()
 
-store = open("store/3.txt", "w")
+store = open("store/3.5.txt", "w")
 errors = 0
 
 for imgFile in imgFiles:
@@ -26,6 +26,7 @@ for imgFile in imgFiles:
 	cv2.imshow('HOGging', rect)
 	cv2.waitKey(5)
 	descriptors = hd.compute(rect)
+	print descriptors
 	store.write(" ".join([str(i[0]) for i in descriptors]) + "\n")
 
 store.close()
