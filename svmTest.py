@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-machine = cv2.ml.SVM_load("svm3.yml")
+machine = cv2.ml.SVM_load("svmBasic.yml")
 
 #face_cascade = cv2.CascadeClassifier('../opencv/data/haarcascades/haarcascade_frontalface_alt.xml')
 
@@ -12,7 +12,7 @@ falsep = [0]*classes
 falsen = [0]*classes
 
 for i in range(classes):
-	f = np.loadtxt('store/test2/' + str(i+1) + '.txt', dtype='float32')
+	f = np.loadtxt('data/' + str(i+1) + '.txt', dtype='float32')
 	retval = machine.predict(f)
 	#hi = raw_input("hi")
 	total[i]+=len(retval[1])

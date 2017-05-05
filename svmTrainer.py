@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import glob
 import time
+from datetime import datetime
 
 C = 1
 gamma = 0.5
@@ -15,7 +16,7 @@ def selectArray(clas):
 
 print "begin reading"
 for i in range(classes):
-	f = np.loadtxt('store/test2/' + str(i+1) + '.txt', dtype='float32')
+	f = np.loadtxt('expandedData/' + str(i+1) + '.txt', dtype='float32')
 	if 'train' in locals():
 		label = label + [i]*f.shape[0]
 		train = np.vstack([train, f])
@@ -54,6 +55,8 @@ innodes = 1764
 print "ready for setup"
 
 print "Training"
+started = datetime.now()
+print "Starting at " + str(started)
 #machine.train(trainData, cv2.ml.ROW_SAMPLE, response)
 
 machine = cv2.ml.SVM_create()
@@ -63,5 +66,9 @@ machine.setC(C)
 machine.setGamma(gamma)
 machine.train(trainData, cv2.ml.ROW_SAMPLE, response)
 
+fin = datetime.now()
+print "Finished at " + str(fin)
+print "Runtime: " + str(fin - started)
 
-machine.save("svm3.yml")
+
+machine.save("svmExpanded.yml")
